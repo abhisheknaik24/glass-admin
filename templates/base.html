@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glass Admin | {% block title %}{% endblock %}</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/images/favicon.png' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/libs/magnific-popup/dist/magnific-popup.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'dist/css/style.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" />
+</head>
+
+<body>
+    <div class="preloader">
+        <svg class="tea lds-ripple" width="37" height="48" viewbox="0 0 37 48" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M27.0819 17H3.02508C1.91076 17 1.01376 17.9059 1.0485 19.0197C1.15761 22.5177 1.49703 29.7374 2.5 34C4.07125 40.6778 7.18553 44.8868 8.44856 46.3845C8.79051 46.79 9.29799 47 9.82843 47H20.0218C20.639 47 21.2193 46.7159 21.5659 46.2052C22.6765 44.5687 25.2312 40.4282 27.5 34C28.9757 29.8188 29.084 22.4043 29.0441 18.9156C29.0319 17.8436 28.1539 17 27.0819 17Z"
+                stroke="#fec80e" stroke-width="2"></path>
+            <path
+                d="M29 23.5C29 23.5 34.5 20.5 35.5 25.4999C36.0986 28.4926 34.2033 31.5383 32 32.8713C29.4555 34.4108 28 34 28 34"
+                stroke="#fec80e" stroke-width="2"></path>
+            <path id="teabag" fill="#fec80e" fill-rule="evenodd" clip-rule="evenodd"
+                d="M16 25V17H14V25H12C10.3431 25 9 26.3431 9 28V34C9 35.6569 10.3431 37 12 37H18C19.6569 37 21 35.6569 21 34V28C21 26.3431 19.6569 25 18 25H16ZM11 28C11 27.4477 11.4477 27 12 27H18C18.5523 27 19 27.4477 19 28V34C19 34.5523 18.5523 35 18 35H12C11.4477 35 11 34.5523 11 34V28Z">
+            </path>
+            <path id="steamL" d="M17 1C17 1 17 4.5 14 6.5C11 8.5 11 12 11 12" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" stroke="#fec80e"></path>
+            <path id="steamR" d="M21 6C21 6 21 8.22727 19 9.5C17 10.7727 17 13 17 13" stroke="#fec80e" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+    </div>
+
+    <div id="main-wrapper">
+        <header class="topbar">
+            <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+                <div class="navbar-header">
+                    <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
+                            class="ri-close-line ri-menu-2-line fs-6"></i></a>
+                    <a class="navbar-brand" href="{% url 'products' %}">
+                        <b class="logo-icon">
+                            <img src="{% static 'assets/images/logo-icon.png' %}" alt="homepage" class="dark-logo" />
+                            <img src="{% static 'assets/images/logo-light-icon.png' %}" alt="homepage"
+                                class="light-logo" />
+                        </b>
+                        <span class="logo-text">
+                            <img src="{% static 'assets/images/logo-text.png' %}" alt="homepage" class="dark-logo" />
+                            <img src="{% static 'assets/images/logo-light-text.png' %}" class="light-logo"
+                                alt="homepage" />
+                        </span>
+                    </a>
+                    <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)"
+                        data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i
+                            class="ri-more-line fs-6"></i></a>
+                </div>
+                <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link sidebartoggler d-none d-md-block" href="javascript:void(0)"><i
+                                    data-feather="menu"></i></a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link nav-sidebar" href="javascript:void(0)">
+                                <i data-feather="shopping-cart"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <i data-feather="bell"></i>
+                                <div class="notify">
+                                    <span class="point bg-primary"></span>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end mailbox dropdown-menu-animate-up">
+                                <ul class="list-style-none">
+                                    <li>
+                                        <div class="rounded-top p-30 pb-2 d-flex align-items-center">
+                                            <h3 class="card-title mb-0">Notifications</h3>
+                                        </div>
+                                    </li>
+                                    {% for i in notifications %}
+                                    <li class="px-3 py-0">
+                                        <div class="message-center message-body position-relative">
+                                            <a href="javascript:void(0)"
+                                                class="message-item px-2 d-flex align-items-center border-bottom py-3">
+                                                <i class="text-warning" data-feather="bell"></i>
+                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
+                                                    <h5 class="message-title mb-0 mt-1 fs-4 font-weight-medium">
+                                                        {{i.title}}
+                                                    </h5>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown profile-dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{% static 'assets/images/users/user.jpg' %}" alt="user" width="30"
+                                    class="profile-pic rounded-circle" />
+                                <div class="d-none d-md-flex">
+                                    <span class="ms-2">Hi,
+                                        <span
+                                            class="text-dark text-capitalize fw-bold">{{request.user.username}}</span></span>
+                                    <span>
+                                        <i data-feather="chevron-down" class="feather-sm"></i>
+                                    </span>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end mailbox dropdown-menu-animate-up">
+                                <ul class="list-style-none">
+                                    <li class="p-30 pb-2">
+                                        <div class="rounded-top d-flex align-items-center">
+                                            <h3 class="card-title mb-0">User Profile</h3>
+                                            <div class="ms-auto">
+                                                <a href="javascript:void(0)" class="link py-0">
+                                                    <i data-feather="x-circle"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center mt-4 pt-3 pb-4 border-bottom">
+                                            <img src="{% static 'assets/images/users/user.jpg' %}" alt="user" width="90"
+                                                class="rounded-circle" />
+                                            <div class="ms-4">
+                                                <h4 class="text-capitalize mb-0">{{request.user.username}}</h4>
+                                                <span class="text-muted">{{request.user.last_login}}</span>
+                                                <p class="text-muted mb-0 mt-1">
+                                                    <i data-feather="mail" class="feather-sm me-1"></i>
+                                                    {{request.user.email}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="p-30 pt-0">
+                                        <div class="mt-4">
+                                            <a href="/accounts/logout/" class="btn btn-info text-white">
+                                                Logout
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <aside class="left-sidebar">
+            <div class="scroll-sidebar">
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <li class="sidebar-item">
+                            <a href="{% url 'products' %}" class="sidebar-link"><i class="ri-stock-line"></i>
+                                <span class="hide-menu">Products</span></a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{% url 'cart' %}" class="sidebar-link"><i class="ri-shopping-cart-line"></i>
+                                <span class="hide-menu">Cart</span></a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{% url 'checkout' %}" class="sidebar-link"><i class="ri-currency-line"></i>
+                                <span class="hide-menu">Checkout</span></a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{% url 'admin:index' %}" class="sidebar-link" target="_blank"><i
+                                    class="ri-admin-line"></i>
+                                <span class="hide-menu">Admin</span></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <aside class="nav-customizer" id="shopping-cart">
+        <div class="nav-customizer-body">
+            <div class="rounded-top d-flex p-30 bg-white pb-3 align-items-center">
+                <h3 class="card-title mb-0">Shopping Cart</h3>
+                <div class="ms-auto">
+                    <a href="javascript:void(0)" class="nav-sidebar text-muted py-0">
+                        <i data-feather="x-circle"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="p-30 pt-0 bg-white scrollable position-relative" style="height: calc(100vh - 280px)">
+                <ul class="list-style-none">
+                    {% if carts %}
+                    {% for i in carts %}
+                    <li class="py-4 border-bottom">
+                        <div class="d-flex align-items-center">
+                            <div>
+                                <img src="{{i.item.image.url}}" alt="product" class="btn-rounded-lg" width="60" />
+                            </div>
+                            <div class="ms-3 ps-1">
+                                <h5 class="mb-0">{{i.item.name}}</h5>
+                                <span class="text-success fs-3">({{i.item.discount_percentage}}% off)</span>
+                                <div class="d-flex align-items-center">
+                                    <h5 class="mb-0">&#8377;{{i.item.price}}/-</h5>
+                                    <div class="shopping-widget ms-2">
+                                        <div class="form-group mb-0 pt-1">
+                                            <input type="text"
+                                                class="form-control text-center border-0 bg-transparent fs-4 text-dark font-weight-medium"
+                                                value="{{i.quantity}}" />
+                                        </div>
+                                        <div class="decrease-btn">
+                                            <a href="{% url 'decrease_quantity' i.id %}"
+                                                class="btn btn-sm btn-light-success text-success waves-effect waves-light px-2">
+                                                <i data-feather="minus" class="feather-xs"></i>
+                                            </a>
+                                        </div>
+                                        <div class="increase-btn">
+                                            <a href="{% url 'increase_quantity' i.id %}"
+                                                class="btn btn-sm btn-light-success text-success waves-effect waves-light px-2">
+                                                <i data-feather="plus" class="feather-xs"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                    {% else %}
+                    <div>
+                        <h6 class="text-center">No cart found!</h6>
+                    </div>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="p-30 bg-white">
+                <div class="d-flex align-items-center py-2">
+                    <span class="text-muted fs-3">Total</span>
+                    <div class="ms-auto">
+                        <span class="text-dark font-weight-medium fs-3">&#8377;{{total_rate}}/-</span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center py-2">
+                    <span class="text-muted fs-3">Discount</span>
+                    <div class="ms-auto">
+                        <span class="text-dark font-weight-medium fs-3">&#8377;{{total_discount}}/-</span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center py-2">
+                    <span class="text-muted fs-3">Grand Total</span>
+                    <div class="ms-auto">
+                        <span class="text-dark font-weight-medium fs-3">&#8377;{{total_price}}/-</span>
+                    </div>
+                </div>
+                <a class="btn btn-info text-white w-100 d-block" href="javascript:void(0);">
+                    Place order
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <aside class="customizer">
+        <a href="javascript:void(0)" class="service-panel-toggle"><i class="fa fa-spin ri-settings-3-line fs-7"></i></a>
+        <div class="customizer-body">
+            <ul class="nav customizer-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" role="tab"
+                        aria-controls="pills-home" aria-selected="true"><i class="ri-tools-fill fs-6"></i></a>
+                </li>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                    <div class="p-3 border-bottom">
+                        <h5 class="font-weight-medium mb-2 mt-2">Layout Settings</h5>
+                        <div class="form-check mt-3">
+                            <input type="checkbox" name="theme-view" class="form-check-input" id="theme-view" />
+                            <label class="form-check-label" for="theme-view">
+                                <span>Dark Theme</span>
+                            </label>
+                        </div>
+                        <div class="form-check mt-2">
+                            <input type="checkbox" class="sidebartoggler form-check-input" name="collapssidebar"
+                                id="collapssidebar" />
+                            <label class="form-check-label" for="collapssidebar">
+                                <span>Collapse Sidebar</span>
+                            </label>
+                        </div>
+                        <div class="form-check mt-2">
+                            <input type="checkbox" name="sidebar-position" class="form-check-input"
+                                id="sidebar-position" />
+                            <label class="form-check-label" for="sidebar-position">
+                                <span>Fixed Sidebar</span>
+                            </label>
+                        </div>
+                        <div class="form-check mt-2">
+                            <input type="checkbox" name="header-position" class="form-check-input"
+                                id="header-position" />
+                            <label class="form-check-label" for="header-position">
+                                <span>Fixed Header</span>
+                            </label>
+                        </div>
+                        <div class="form-check mt-2">
+                            <input type="checkbox" name="boxed-layout" class="form-check-input" id="boxed-layout" />
+                            <label class="form-check-label" for="boxed-layout">
+                                <span>Boxed Layout</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="p-3 border-bottom">
+                        <h5 class="font-weight-medium mb-2 mt-2">Logo Backgrounds</h5>
+                        <ul class="theme-color m-0 p-0">
+                            <li class="theme-item list-inline-item me-1">
+                                <a href="javascript:void(0)" class="theme-link rounded-circle d-block"
+                                    data-logobg="skin1"></a>
+                            </li>
+                            <li class="theme-item list-inline-item me-1">
+                                <a href="javascript:void(0)" class="theme-link rounded-circle d-block"
+                                    data-logobg="skin2"></a>
+                            </li>
+                            <li class="theme-item list-inline-item me-1">
+                                <a href="javascript:void(0)" class="theme-link rounded-circle d-block"
+                                    data-logobg="skin3"></a>
+                            </li>
+                            <li class="theme-item list-inline-item me-1">
+                                <a href="javascript:void(0)" class="theme-link rounded-circle d-block"
+                                    data-logobg="skin4"></a>
+                            </li>
+                            <li class="theme-item list-inline-item me-1">
+                                <a href="javascript:void(0)" class="theme-link rounded-circle d-block"
+                                    data-logobg="skin5"></a>
+                            </li>
+                            <li class="theme-item list-inline-item me-1">
+                                <a href="javascript:void(0)" class="theme-link rounded-circle d-block"
+                                    data-logobg="skin6"></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="p-3 border-bottom">
+                        <h5 class="font-weight-medium mb-2 mt-2">Navbar Backgrounds</h5>
+                        <ul class="theme-color m-0 p-0">
+                            <li class="theme-item list-inline-item me-1">
+                                <a href="javascript:void(0)" class="theme-link rounded-circle d-block"
+                                    data-navbarbg="skin1"></a>
+                            </li>
+                            <li class="theme-item list-inline-item me-1">
+                                <a href="javascript:void(0)" class="theme-link rounded-circle d-block"
+                                    data-navbarbg="skin2"></a>
+                            </li>
+                            <li class="theme-item list-inline-item me-1">
+                                <a href="javascript:void(0)" class="theme-link rounded-circle d-block"
+                                    data-navbarbg="skin3"></a>
+                            </li>
+                            <li class="theme-item list-inline-item me-1">
+                                <a href="javascript:void(0)" class="theme-link rounded-circle d-block"
+                                    data-navbarbg="skin4"></a>
+                            </li>
+                            <li class="theme-item list-inline-item me-1">
+                                <a href="javascript:void(0)" class="theme-link rounded-circle d-block"
+                                    data-navbarbg="skin5"></a>
+                            </li>
+                            <li class="theme-item list-inline-item me-1">
+                                <a href="javascript:void(0)" class="theme-link rounded-circle d-block"
+                                    data-navbarbg="skin6"></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="p-3 border-bottom">
+                        <h5 class="font-weight-medium mb-2 mt-2">Sidebar Backgrounds</h5>
+                        <ul class="theme-color m-0 p-0">
+                            <li class="theme-item list-inline-item me-1">
+                                <a href="javascript:void(0)" class="theme-link rounded-circle d-block"
+                                    data-sidebarbg="skin1"></a>
+                            </li>
+                            <li class="theme-item list-inline-item me-1">
+                                <a href="javascript:void(0)" class="theme-link rounded-circle d-block"
+                                    data-sidebarbg="skin2"></a>
+                            </li>
+                            <li class="theme-item list-inline-item me-1">
+                                <a href="javascript:void(0)" class="theme-link rounded-circle d-block"
+                                    data-sidebarbg="skin3"></a>
+                            </li>
+                            <li class="theme-item list-inline-item me-1">
+                                <a href="javascript:void(0)" class="theme-link rounded-circle d-block"
+                                    data-sidebarbg="skin4"></a>
+                            </li>
+                            <li class="theme-item list-inline-item me-1">
+                                <a href="javascript:void(0)" class="theme-link rounded-circle d-block"
+                                    data-sidebarbg="skin5"></a>
+                            </li>
+                            <li class="theme-item list-inline-item me-1">
+                                <a href="javascript:void(0)" class="theme-link rounded-circle d-block"
+                                    data-sidebarbg="skin6"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'dist/js/app.min.js' %}"></script>
+    <script src="{% static 'dist/js/app.init.dark.js' %}"></script>
+    <script src="{% static 'dist/js/app-style-switcher.js' %}"></script>
+    <script src="{% static 'assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js' %}"></script>
+    <script src="{% static 'assets/extra-libs/sparkline/sparkline.js' %}"></script>
+    <script src="{% static 'dist/js/waves.js' %}"></script>
+    <script src="{% static 'dist/js/sidebarmenu.js' %}"></script>
+    <script src="{% static 'dist/js/feather.min.js' %}"></script>
+    <script src="{% static 'dist/js/custom.min.js' %}"></script>
+    <script src="{% static 'assets/libs/magnific-popup/dist/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'assets/libs/magnific-popup/meg.init.js' %}"></script>
+</body>
+
+</html>

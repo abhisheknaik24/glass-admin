@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}Products{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+    <div class="page-titles">
+        <div class="row">
+            <div class="col-lg-8 col-md-6 col-12 align-self-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 d-flex align-items-center">
+                        <li class="breadcrumb-item">
+                            <a href="{% url 'products' %}" class="link"><i class="ri-home-3-line fs-5"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Products
+                        </li>
+                    </ol>
+                </nav>
+                <h1 class="mb-0 fw-bold">Products</h1>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            {% for i in items %}
+            <div class="col-lg-3 col-xl-3 d-flex align-items-strech">
+                <div class="card w-100">
+                    <div class="text-center pt-4">
+                        <a href="{% url 'details' i.id %}">
+                            <img src="{{i.image.url}}" alt="product" class="img-fluid" width="100" />
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'details' i.id %}" class="font-weight-medium text-dark fs-6">{{i.name}}</a>
+                        <h5 class="fs-5 text-muted fw-normal mb-0 mt-1">
+                            &#8377;
+                            <del class="text-danger me-1">{{i.rate}}</del>
+                            {{i.price}}
+                            /-
+                            <small class="text-success fs-4">({{i.discount_percentage}}% off)</small>
+                        </h5>
+                        <a href="{% url 'add_to_cart' i.id %}" class="btn btn-outline-primary w-100 d-block mt-3">
+                            Add to Cart
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
