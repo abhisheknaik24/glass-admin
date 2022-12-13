@@ -3,4 +3,4 @@ venv/
 staticfiles/
 media/
 __pycache__/
-**/migrations/**
+migrations/
