@@ -1,14 +1,13 @@
-from app.models import Cart, Notification
+from app.models import Cart, Notification, Sidebar
 
 
 def index_processor(request):
-    groups, carts, notifications = ([] for i in range(3))
+    sidebar, carts, notifications = ([] for i in range(3))
     total_price, total_rate, total_discount = (0 for i in range(3))
 
     if request.user.is_authenticated:
         try:
-            if request.user.groups.values_list() is not None:
-                groups = list(request.user.groups.values_list("name", flat=True))
+            sidebar = list(Sidebar.objects.filter(group__icontains=request.user.groups))
 
             carts = Cart.objects.filter(user=request.user.id)
 
@@ -23,7 +22,7 @@ def index_processor(request):
             raise e
 
     context = {
-        "groups": groups,
+        "sidebar": sidebar,
         "carts": carts,
         "total_price": total_price,
         "total_rate": total_rate,

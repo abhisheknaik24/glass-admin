@@ -160,23 +160,14 @@
             <div class="scroll-sidebar">
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
+                        {% for i in sidebar %}
                         <li class="sidebar-item">
-                            <a href="{% url 'products' %}" class="sidebar-link"><i class="ri-stock-line"></i>
-                                <span class="hide-menu">Products</span></a>
+                            <a href="{% url i.url %}" class="sidebar-link">
+                                <i class="{{i.icon}}"></i>
+                                <span class="hide-menu">{{i.title}}</span>
+                            </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a href="{% url 'cart' %}" class="sidebar-link"><i class="ri-shopping-cart-line"></i>
-                                <span class="hide-menu">Cart</span></a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{% url 'checkout' %}" class="sidebar-link"><i class="ri-currency-line"></i>
-                                <span class="hide-menu">Checkout</span></a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{% url 'admin:index' %}" class="sidebar-link" target="_blank"><i
-                                    class="ri-admin-line"></i>
-                                <span class="hide-menu">Admin</span></a>
-                        </li>
+                        {% endfor %}
                     </ul>
                 </nav>
             </div>
