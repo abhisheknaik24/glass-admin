@@ -5,6 +5,17 @@ from django.shortcuts import redirect, render
 from app.models import Cart, Feature, Item, Notification
 
 
+def check_user(request, group):
+    if request.user.is_authenticated:
+        try:
+            if request.user.groups.values_list() is not None:
+                groups = list(request.user.groups.values_list("name", flat=True))
+                if not group in groups:
+                    return redirect(login_view)
+        except Exception as e:
+            raise e
+
+
 def login_view(request):
     return render(request, "login.html")
 
@@ -18,6 +29,7 @@ def products_view(request):
 
 @login_required(login_url="/")
 def product_details_view(request, id):
+    check_user(request, "Customer")
     try:
         item = Item.objects.get(id=id)
     except ObjectDoesNotExist:
@@ -29,6 +41,7 @@ def product_details_view(request, id):
 
 @login_required(login_url="/")
 def products_cart_view(request):
+    check_user(request, "Customer")
     return render(request, "cart.html")
 
 
@@ -89,63 +102,53 @@ def clear_cart(request):
 
 @login_required(login_url="/")
 def products_checkout_view(request):
+    check_user(request, "Customer")
     return render(request, "checkout.html")
-
-
-def check_user(request):
-    if request.user.is_authenticated:
-        try:
-            if request.user.groups.values_list() is not None:
-                groups = list(request.user.groups.values_list("name", flat=True))
-                if not "Admin" in groups:
-                    return redirect(login_view)
-        except Exception as e:
-            raise e
 
 
 @login_required(login_url="/")
 def work_order_view(request):
-    check_user(request)
+    check_user(request, "Admin")
     return render(request, "work_order.html")
 
 
 @login_required(login_url="/")
 def cutting_view(request):
-    check_user(request)
+    check_user(request, "Admin")
     return render(request, "cutting.html")
 
 
 @login_required(login_url="/")
 def polishing_view(request):
-    check_user(request)
+    check_user(request, "Admin")
     return render(request, "polishing.html")
 
 
 @login_required(login_url="/")
 def fabrication_view(request):
-    check_user(request)
+    check_user(request, "Admin")
     return render(request, "fabrication.html")
 
 
 @login_required(login_url="/")
 def toughening_view(request):
-    check_user(request)
+    check_user(request, "Admin")
     return render(request, "toughening.html")
 
 
 @login_required(login_url="/")
 def dgu_view(request):
-    check_user(request)
+    check_user(request, "Admin")
     return render(request, "dgu.html")
 
 
 @login_required(login_url="/")
 def dispatch_view(request):
-    check_user(request)
+    check_user(request, "Admin")
     return render(request, "dispatch.html")
 
 
 @login_required(login_url="/")
 def inventory_view(request):
-    check_user(request)
+    check_user(request, "Admin")
     return render(request, "inventory.html")
