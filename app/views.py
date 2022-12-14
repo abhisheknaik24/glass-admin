@@ -2,7 +2,16 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 
-from app.models import Cart, Feature, Item, Notification, Production, Sidebar, WorkOrder
+from app.models import (
+    Cart,
+    Feature,
+    Inventory,
+    Item,
+    Notification,
+    Production,
+    Sidebar,
+    WorkOrder,
+)
 
 
 def check_user(request, group):
