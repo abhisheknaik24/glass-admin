@@ -7,7 +7,10 @@ def index_processor(request):
 
     if request.user.is_authenticated:
         try:
-            sidebar = list(Sidebar.objects.filter(group__icontains=request.user.groups))
+            if request.user.groups.values_list() is not None:
+                groups = list(request.user.groups.values_list())
+
+                sidebar = list(Sidebar.objects.filter(group__in=groups))
 
             carts = Cart.objects.filter(user=request.user.id)
 
