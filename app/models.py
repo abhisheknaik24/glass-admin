@@ -3,6 +3,7 @@ from django.db import models
 
 
 class Sidebar(models.Model):
+    id = models.AutoField(primary_key=True, blank=False, null=False)
     title = models.CharField(max_length=255, blank=False, null=False)
     url = models.CharField(max_length=255, blank=False, null=False)
     icon = models.CharField(max_length=255, blank=False, null=False)
@@ -18,6 +19,7 @@ class Sidebar(models.Model):
 
 
 class Item(models.Model):
+    id = models.AutoField(primary_key=True, blank=False, null=False)
     image = models.ImageField(upload_to="items")
     name = models.CharField(max_length=100, blank=False, null=False, unique=True)
     rate = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)
@@ -53,6 +55,7 @@ class Item(models.Model):
 
 
 class Feature(models.Model):
+    id = models.AutoField(primary_key=True, blank=False, null=False)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     feature = models.CharField(max_length=255, blank=False, null=False)
     is_active = models.BooleanField(default=True)
@@ -67,6 +70,7 @@ class Feature(models.Model):
 
 
 class Cart(models.Model):
+    id = models.AutoField(primary_key=True, blank=False, null=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.IntegerField(blank=False, null=False)
@@ -91,6 +95,7 @@ class Cart(models.Model):
 
 
 class Notification(models.Model):
+    id = models.AutoField(primary_key=True, blank=False, null=False)
     title = models.CharField(max_length=255, blank=False, null=False)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -104,7 +109,7 @@ class Notification(models.Model):
 
 
 class WorkOrder(models.Model):
-    wo_no = models.CharField(max_length=255, blank=False, null=False, unique=True)
+    id = models.AutoField(primary_key=True, blank=False, null=False)
     customer = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.IntegerField(blank=False, null=False)
@@ -112,18 +117,15 @@ class WorkOrder(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def save(self, *args, **kwargs):
-        self.wo_no += "WO-" + 1
-        super(WorkOrder, self).save(*args, **kwargs)
-
     def __str__(self):
-        return self.wo_no
+        return self.item.name
 
     class Meta:
         db_table = "work_orders"
 
 
 class Production(models.Model):
+    id = models.AutoField(primary_key=True, blank=False, null=False)
     work_order = models.ForeignKey(WorkOrder, on_delete=models.CASCADE)
     actual_qty = models.IntegerField(blank=False, null=False)
     balance_qty = models.IntegerField(blank=False, null=False)
@@ -139,7 +141,7 @@ class Production(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.work_order.wo_no
+        return self.work_order.item.name
 
     class Meta:
         db_table = "productions"
