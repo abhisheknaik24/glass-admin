@@ -2,16 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 
-from app.models import (
-    Cart,
-    Feature,
-    Inventory,
-    Item,
-    Notification,
-    Production,
-    Sidebar,
-    WorkOrder,
-)
+from app.models import Cart, Feature, Item, Notification, Production, Sidebar, WorkOrder
 
 
 def check_user(request, group):
@@ -31,7 +22,7 @@ def login_view(request):
 
 @login_required(login_url="/")
 def products_view(request):
-    items = Item.objects.all()
+    items = Item.objects.filter(in_stock__gt=0)
     context = {"items": items}
     return render(request, "products.html", context)
 
