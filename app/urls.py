@@ -18,6 +18,7 @@ urlpatterns = [
     path("clear_cart/", views.clear_cart, name="clear_cart"),
     path("checkout/", views.products_checkout_view, name="checkout"),
     path("work_order/", views.work_order_view, name="work_order"),
+    path("add_work_order/", views.add_work_order, name="add_work_order"),
     path("cutting/", views.cutting_view, name="cutting"),
     path("polishing/", views.polishing_view, name="polishing"),
     path("fabrication/", views.fabrication_view, name="fabrication"),

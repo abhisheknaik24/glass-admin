@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 
@@ -109,7 +110,27 @@ def products_checkout_view(request):
 @login_required(login_url="/")
 def work_order_view(request):
     check_user(request, "Admin")
-    return render(request, "work_order.html")
+    customers = User.objects.filter(groups__name__in=["Customer"])
+    items = Item.objects.all()
+    context = {"customers": customers, "items": items}
+    return render(request, "work_order.html", context)
+
+
+def add_work_order(request):
+    if request.method == "POST":
+        customer_id = request.POST.get("customer", None)
+        item_id = request.POST.get("item", None)
+        quantity = request.POST.get("quantity", None)
+        try:
+            customer = User.objects.get(id=customer_id)
+            item = Item.objects.get(id=item_id)
+        except ObjectDoesNotExist:
+            customer = None
+            item = None
+        if not customer is None and not item is None:
+            work_order = WorkOrder(customer=customer, item=item, quantity=quantity)
+            work_order.save()
+    return redirect(work_order_view)
 
 
 @login_required(login_url="/")
