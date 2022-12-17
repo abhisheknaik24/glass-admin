@@ -49,13 +49,13 @@ def add_to_cart(request, id):
     try:
         item = Item.objects.get(id=id)
         if item:
-            cart_check = Cart.objects.filter(user=request.user.id, item=item).exists()
+            cart_check = Cart.objects.filter(user=request.user, item=item).exists()
             if cart_check:
-                cart = Cart.objects.get(user=request.user.id, item=item)
+                cart = Cart.objects.get(user=request.user, item=item)
                 cart.quantity += 1
                 cart.save()
             else:
-                cart = Cart(user=request.user.id, item=item, quantity=1)
+                cart = Cart(user=request.user, item=item, quantity=1)
                 cart.save()
     except ObjectDoesNotExist:
         item = None
@@ -64,7 +64,7 @@ def add_to_cart(request, id):
 
 def increase_quantity(request, id):
     try:
-        cart = Cart.objects.get(id=id, user=request.user.id)
+        cart = Cart.objects.get(id=id, user=request.user)
         cart.quantity += 1
         cart.save()
     except ObjectDoesNotExist:
@@ -74,7 +74,7 @@ def increase_quantity(request, id):
 
 def decrease_quantity(request, id):
     try:
-        cart = Cart.objects.get(id=id, user=request.user.id)
+        cart = Cart.objects.get(id=id, user=request.user)
         cart.quantity -= 1
         if cart.quantity == 0:
             cart.delete()
@@ -87,7 +87,7 @@ def decrease_quantity(request, id):
 
 def delete_cart(request, id):
     try:
-        cart = Cart.objects.get(id=id, user=request.user.id)
+        cart = Cart.objects.get(id=id, user=request.user)
         cart.delete()
     except ObjectDoesNotExist:
         cart = None
@@ -95,7 +95,7 @@ def delete_cart(request, id):
 
 
 def clear_cart(request):
-    cart = Cart.objects.filter(user=request.user.id)
+    cart = Cart.objects.filter(user=request.user)
     cart.delete()
     return redirect(products_cart_view)
 

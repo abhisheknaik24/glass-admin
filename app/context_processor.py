@@ -12,7 +12,7 @@ def index_processor(request):
 
                 sidebar = list(Sidebar.objects.filter(group__in=groups))
 
-            carts = Cart.objects.filter(user=request.user.id)
+            carts = Cart.objects.filter(user=request.user)
 
             for i in carts:
                 total_price += i.total_price
