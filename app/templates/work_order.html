@@ -33,20 +33,7 @@
                                     {% csrf_token %}
                                     <div class="form-body">
                                         <div class="row">
-                                            <div class="col-md-5">
-                                                <div class="mb-3">
-                                                    <label class="control-label">Customer</label>
-                                                    <select class="form-select text-capitalize" id="customer"
-                                                        name="customer" required>
-                                                        <option value="">--Select--</option>
-                                                        {% for i in customers %}
-                                                        <option class="text-capitalize" value="{{i.id}}">{{i.username}}
-                                                        </option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-5">
+                                            <div class="col-md-8">
                                                 <div class="mb-3">
                                                     <label class="control-label">Item</label>
                                                     <select class="form-select text-capitalize" id="item" name="item"
@@ -59,7 +46,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-4">
                                                 <div class="mb-3">
                                                     <label class="control-label">Quantity</label>
                                                     <input type="number" class="form-control" id="quantity"
@@ -81,7 +68,6 @@
                                         <thead>
                                             <tr>
                                                 <th>Id</th>
-                                                <th>Customer</th>
                                                 <th>Item</th>
                                                 <th>Quantity</th>
                                                 <th>Status</th>
@@ -91,7 +77,6 @@
                                             {% for i in work_orders %}
                                             <tr>
                                                 <td>#{{i.id}}</td>
-                                                <td>{{i.customer.username}}</td>
                                                 <td>{{i.item.name}}</td>
                                                 <td>{{i.quantity}}</td>
                                                 <td>{{i.is_active}}</td>

@@ -6,44 +6,40 @@ from django.shortcuts import redirect, render
 from app.models import Cart, Feature, Item, Notification, Production, Sidebar, WorkOrder
 
 
-def check_user(request, group):
-    if request.user.is_authenticated:
-        try:
-            if request.user.groups.values_list() is not None:
-                groups = list(request.user.groups.values_list("name", flat=True))
-                if not group in groups:
-                    return redirect(login_view)
-        except Exception as e:
-            raise e
-
-
 def login_view(request):
     return render(request, "login.html")
 
 
 @login_required(login_url="/")
 def products_view(request):
-    items = Item.objects.filter(in_stock__gt=0)
-    context = {"items": items}
-    return render(request, "products.html", context)
+    if request.user.groups.filter(name__in=["Customer", "Admin"]).exists():
+        items = Item.objects.filter(in_stock__gt=0)
+        context = {"items": items}
+        return render(request, "products.html", context)
+    else:
+        return redirect(login_view)
 
 
 @login_required(login_url="/")
 def product_details_view(request, id):
-    check_user(request, "Customer")
-    try:
-        item = Item.objects.get(id=id)
-    except ObjectDoesNotExist:
-        item = None
-    features = Feature.objects.filter(item__id=id)
-    context = {"item": item, "features": features}
-    return render(request, "details.html", context)
+    if request.user.groups.filter(name__in=["Customer", "Admin"]).exists():
+        try:
+            item = Item.objects.get(id=id)
+        except ObjectDoesNotExist:
+            item = None
+        features = Feature.objects.filter(item__id=id)
+        context = {"item": item, "features": features}
+        return render(request, "details.html", context)
+    else:
+        return redirect(login_view)
 
 
 @login_required(login_url="/")
 def products_cart_view(request):
-    check_user(request, "Customer")
-    return render(request, "cart.html")
+    if request.user.groups.filter(name__in=["Customer"]).exists():
+        return render(request, "cart.html")
+    else:
+        return redirect(login_view)
 
 
 def add_to_cart(request, id):
@@ -113,47 +109,51 @@ def buy_now(request, id):
 
 @login_required(login_url="/")
 def products_checkout_view(request):
-    check_user(request, "Customer")
-    return render(request, "checkout.html")
+    if request.user.groups.filter(name__in=["Customer"]).exists():
+        return render(request, "checkout.html")
+    else:
+        return redirect(login_view)
 
 
 @login_required(login_url="/")
 def work_order_view(request):
-    check_user(request, "Admin")
-    customers = User.objects.filter(groups__name__in=["Customer"])
-    items = Item.objects.all()
-    work_orders = WorkOrder.objects.all()
-    context = {"customers": customers, "items": items, "work_orders": work_orders}
-    return render(request, "work_order.html", context)
+    if request.user.groups.filter(name__in=["Admin"]).exists():
+        items = Item.objects.all()
+        work_orders = WorkOrder.objects.all()
+        context = {"items": items, "work_orders": work_orders}
+        return render(request, "work_order.html", context)
+    else:
+        return redirect(login_view)
 
 
 def add_work_order(request):
     if request.method == "POST":
-        customer_id = request.POST.get("customer", None)
         item_id = request.POST.get("item", None)
         quantity = request.POST.get("quantity", None)
-        if customer_id and item_id and quantity:
+        if item_id and quantity:
             try:
-                customer = User.objects.get(id=customer_id)
                 item = Item.objects.get(id=item_id)
             except ObjectDoesNotExist:
-                customer = None
                 item = None
-            if customer and item:
-                work_order = WorkOrder(customer=customer, item=item, quantity=quantity)
+            if item:
+                work_order = WorkOrder(item=item, quantity=quantity)
                 work_order.save()
     return redirect(work_order_view)
 
 
 @login_required(login_url="/")
 def production_view(request):
-    check_user(request, "Admin")
-    return render(request, "production.html")
+    if request.user.groups.filter(name__in=["Admin"]).exists():
+        return render(request, "production.html")
+    else:
+        return redirect(login_view)
 
 
 @login_required(login_url="/")
 def inventory_view(request):
-    check_user(request, "Admin")
-    items = Item.objects.filter(in_stock__gt=0)
-    context = {"items": items}
-    return render(request, "inventory.html", context)
+    if request.user.groups.filter(name__in=["Admin"]).exists():
+        items = Item.objects.filter(in_stock__gt=0)
+        context = {"items": items}
+        return render(request, "inventory.html", context)
+    else:
+        return redirect(login_view)

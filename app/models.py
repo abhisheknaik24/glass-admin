@@ -7,6 +7,7 @@ class Sidebar(models.Model):
     title = models.CharField(max_length=255, blank=False, null=False)
     url = models.CharField(max_length=255, blank=False, null=False)
     icon = models.CharField(max_length=255, blank=False, null=False)
+    priority = models.IntegerField(blank=False, null=False)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -110,7 +111,6 @@ class Notification(models.Model):
 
 class WorkOrder(models.Model):
     id = models.AutoField(primary_key=True, blank=False, null=False)
-    customer = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.IntegerField(blank=False, null=False)
     is_active = models.BooleanField(default=True)

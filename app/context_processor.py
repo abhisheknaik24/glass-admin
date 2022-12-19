@@ -10,7 +10,9 @@ def index_processor(request):
             if request.user.groups.values_list() is not None:
                 groups = list(request.user.groups.values_list("name", flat=True))
 
-                sidebar = list(Sidebar.objects.filter(group__name__in=groups))
+                sidebar = list(
+                    Sidebar.objects.filter(group__name__in=groups).order_by("priority")
+                )
 
             carts = Cart.objects.filter(user=request.user)
 

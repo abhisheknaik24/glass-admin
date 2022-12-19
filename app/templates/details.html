@@ -33,6 +33,7 @@
                                 <div class="white-box text-center border mb-3 mt-4">
                                     <img src="{{item.image.url}}" class="img-fluid" alt="product" />
                                 </div>
+                                {% if "Customer" in groups %}
                                 <div class="row gx-2">
                                     <div class="col-md-6 mb-2 mb-md-0">
                                         <a href="{% url 'add_to_cart' item.id %}" class="btn btn-info me-1 w-100">
@@ -45,6 +46,7 @@
                                         </a>
                                     </div>
                                 </div>
+                                {% endif %}
                             </div>
                             <div class="col-lg-8 col-xl-9 col-md-9 col-sm-6">
                                 <h2 class="mt-4">

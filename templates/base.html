@@ -67,6 +67,7 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav">
+                        {% if 'Customer' in groups %}
                         <li class="nav-item">
                             <a class="nav-link nav-sidebar" href="javascript:void(0)">
                                 <i data-feather="shopping-cart"></i>
@@ -105,6 +106,7 @@
                                 </ul>
                             </div>
                         </li>
+                        {% endif %}
                         <li class="nav-item dropdown profile-dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
