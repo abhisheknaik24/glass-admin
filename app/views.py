@@ -143,4 +143,6 @@ def production_view(request):
 @login_required(login_url="/")
 def inventory_view(request):
     check_user(request, "Admin")
-    return render(request, "inventory.html")
+    items = Item.objects.filter(in_stock__gt=0)
+    context = {"items": items}
+    return render(request, "inventory.html", context)
