@@ -101,6 +101,16 @@ def clear_cart(request):
     return redirect(products_cart_view)
 
 
+def buy_now(request, id):
+    try:
+        cart = Cart.objects.get(id=id, user=request.user)
+        cart.quantity += 1
+        cart.save()
+    except ObjectDoesNotExist:
+        cart = None
+    return redirect(products_checkout_view)
+
+
 @login_required(login_url="/")
 def products_checkout_view(request):
     check_user(request, "Customer")

@@ -2,7 +2,7 @@ from app.models import Cart, Notification, Sidebar
 
 
 def index_processor(request):
-    sidebar, carts, notifications = ([] for i in range(3))
+    groups, sidebar, carts, notifications = ([] for i in range(4))
     total_price, total_rate, total_discount = (0 for i in range(3))
 
     if request.user.is_authenticated:
