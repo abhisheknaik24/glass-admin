@@ -121,52 +121,23 @@ def add_work_order(request):
         customer_id = request.POST.get("customer", None)
         item_id = request.POST.get("item", None)
         quantity = request.POST.get("quantity", None)
-        try:
-            customer = User.objects.get(id=customer_id)
-            item = Item.objects.get(id=item_id)
-        except ObjectDoesNotExist:
-            customer = None
-            item = None
-        if not customer is None and not item is None:
-            work_order = WorkOrder(customer=customer, item=item, quantity=quantity)
-            work_order.save()
+        if customer_id and item_id and quantity:
+            try:
+                customer = User.objects.get(id=customer_id)
+                item = Item.objects.get(id=item_id)
+            except ObjectDoesNotExist:
+                customer = None
+                item = None
+            if customer and item:
+                work_order = WorkOrder(customer=customer, item=item, quantity=quantity)
+                work_order.save()
     return redirect(work_order_view)
 
 
 @login_required(login_url="/")
-def cutting_view(request):
+def production_view(request):
     check_user(request, "Admin")
-    return render(request, "cutting.html")
-
-
-@login_required(login_url="/")
-def polishing_view(request):
-    check_user(request, "Admin")
-    return render(request, "polishing.html")
-
-
-@login_required(login_url="/")
-def fabrication_view(request):
-    check_user(request, "Admin")
-    return render(request, "fabrication.html")
-
-
-@login_required(login_url="/")
-def toughening_view(request):
-    check_user(request, "Admin")
-    return render(request, "toughening.html")
-
-
-@login_required(login_url="/")
-def dgu_view(request):
-    check_user(request, "Admin")
-    return render(request, "dgu.html")
-
-
-@login_required(login_url="/")
-def dispatch_view(request):
-    check_user(request, "Admin")
-    return render(request, "dispatch.html")
+    return render(request, "production.html")
 
 
 @login_required(login_url="/")
