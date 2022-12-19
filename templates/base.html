@@ -108,7 +108,7 @@
                         <li class="nav-item dropdown profile-dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{% static 'assets/images/users/user.jpg' %}" alt="user" width="30"
+                                <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="user" width="30"
                                     class="profile-pic rounded-circle" />
                                 <div class="d-none d-md-flex">
                                     <span class="ms-2">Hi,
@@ -131,8 +131,8 @@
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-center mt-4 pt-3 pb-4 border-bottom">
-                                            <img src="{% static 'assets/images/users/user.jpg' %}" alt="user" width="90"
-                                                class="rounded-circle" />
+                                            <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="user"
+                                                width="90" class="rounded-circle" />
                                             <div class="ms-4">
                                                 <h4 class="text-capitalize mb-0">{{request.user.username}}</h4>
                                                 <span class="text-muted">{{request.user.last_login}}</span>
