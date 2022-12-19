@@ -108,8 +108,13 @@
                         <li class="nav-item dropdown profile-dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% if 'Admin' in groups %}
+                                <img src="{% static 'assets/images/user.webp' %}" alt="user" width="30"
+                                    class="profile-pic rounded-circle" />
+                                {% else %}
                                 <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="user" width="30"
                                     class="profile-pic rounded-circle" />
+                                {% endif %}
                                 <div class="d-none d-md-flex">
                                     <span class="ms-2">Hi,
                                         <span
@@ -131,8 +136,13 @@
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-center mt-4 pt-3 pb-4 border-bottom">
+                                            {% if 'Admin' in groups %}
+                                            <img src="{% static 'assets/images/user.webp' %}" alt="user" width="90"
+                                                class="rounded-circle" />
+                                            {% else %}
                                             <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="user"
                                                 width="90" class="rounded-circle" />
+                                            {% endif %}
                                             <div class="ms-4">
                                                 <h4 class="text-capitalize mb-0">{{request.user.username}}</h4>
                                                 <span class="text-muted">{{request.user.last_login}}</span>
@@ -402,7 +412,7 @@
     <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script>
     <script src="{% static 'assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'dist/js/app.min.js' %}"></script>
-    <script src="{% static 'dist/js/app.init.dark.js' %}"></script>
+    <script src="{% static 'dist/js/app.init.js' %}"></script>
     <script src="{% static 'dist/js/app-style-switcher.js' %}"></script>
     <script src="{% static 'assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js' %}"></script>
     <script src="{% static 'assets/extra-libs/sparkline/sparkline.js' %}"></script>
@@ -421,8 +431,15 @@
     <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
 
-    {% block javascript %}
-    {% endblock %}
+    <script>
+        $(function () {
+            $(".table").DataTable({
+                dom: "Bfrtip",
+                buttons: ["copy", "csv", "excel", "pdf", "print"],
+            });
+            $(".buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel").addClass("btn btn-primary mr-1");
+        });
+    </script>
 </body>
 
 </html>

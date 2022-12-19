@@ -112,7 +112,8 @@ def work_order_view(request):
     check_user(request, "Admin")
     customers = User.objects.filter(groups__name__in=["Customer"])
     items = Item.objects.all()
-    context = {"customers": customers, "items": items}
+    work_orders = WorkOrder.objects.all()
+    context = {"customers": customers, "items": items, "work_orders": work_orders}
     return render(request, "work_order.html", context)
 
 

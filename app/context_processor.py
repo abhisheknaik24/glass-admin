@@ -8,9 +8,9 @@ def index_processor(request):
     if request.user.is_authenticated:
         try:
             if request.user.groups.values_list() is not None:
-                groups = list(request.user.groups.values_list())
+                groups = list(request.user.groups.values_list("name", flat=True))
 
-                sidebar = list(Sidebar.objects.filter(group__in=groups))
+                sidebar = list(Sidebar.objects.filter(group__name__in=groups))
 
             carts = Cart.objects.filter(user=request.user)
 
@@ -25,6 +25,7 @@ def index_processor(request):
             raise e
 
     context = {
+        "groups": groups,
         "sidebar": sidebar,
         "carts": carts,
         "total_price": total_price,
