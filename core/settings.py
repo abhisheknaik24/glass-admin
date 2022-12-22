@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 from urllib.parse import quote
 
@@ -123,7 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Kolkata"
 
 USE_I18N = True
 
@@ -184,5 +185,48 @@ CELERY_BROKER_URL = (
     % quote(env("RABBIT_PASS"))
 )
 
-APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
-APSCHEDULER_RUN_NOW_TIMEOUT = 25
+SCHEDULER_CONFIG = {
+    "apscheduler.jobstores.default": {
+        "class": "django_apscheduler.jobstores:DjangoJobStore"
+    },
+    "apscheduler.executors.processpool": {"type": "threadpool"},
+}
+
+SCHEDULER_AUTOSTART = True
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{name} {levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+        "file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "formatter": "verbose",
+            "filename": "loggers/glass_admin.log",
+        },
+    },
+    "loggers": {
+        "root": {
+            "handlers": [
+                "file",
+            ],
+            "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
+            "propagate": True,
+        },
+    },
+}
