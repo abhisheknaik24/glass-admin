@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+    "django_apscheduler",
 ]
 
 MIDDLEWARE = [
@@ -182,3 +183,6 @@ CELERY_BROKER_URL = (
     f'amqp://{env("RABBIT_USER")}:%s@{env("RABBIT_HOST")}:{env("RABBIT_PORT")}'
     % quote(env("RABBIT_PASS"))
 )
+
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+APSCHEDULER_RUN_NOW_TIMEOUT = 25

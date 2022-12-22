@@ -6,6 +6,7 @@ from app.models import Cart, Feature, Item, Notification, Production, Sidebar, W
 @shared_task
 def work_order_to_production():
     work_orders = WorkOrder.objects.filter(is_active=True)
-    if work_orders:
-        production = Production()
+    print("work_orders", work_orders)
+    # if work_orders:
+    #     production = Production()
     return True

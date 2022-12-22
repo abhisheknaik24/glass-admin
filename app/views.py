@@ -4,7 +4,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 
 from app.models import Cart, Feature, Item, Notification, Production, Sidebar, WorkOrder
-from app.tasks import work_order_to_production
 
 
 def login_view(request):
@@ -139,7 +138,6 @@ def add_work_order(request):
             if item:
                 work_order = WorkOrder(item=item, quantity=quantity)
                 work_order.save()
-                work_order_to_production.delay()
     return redirect(work_order_view)
 
 
