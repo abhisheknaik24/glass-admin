@@ -1,5 +1,4 @@
 from django.apps import AppConfig
-from django.conf import settings
 
 
 class AppConfig(AppConfig):
@@ -7,7 +6,6 @@ class AppConfig(AppConfig):
     name = "app"
 
     def ready(self):
-        from app.runapscheduler import Command
+        from app import consumer
 
-        command = Command()
-        command.handle()
+        consumer.channel.start_consuming()

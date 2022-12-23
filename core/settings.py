@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
-    "django_apscheduler",
 ]
 
 MIDDLEWARE = [
@@ -185,14 +184,7 @@ CELERY_BROKER_URL = (
     % quote(env("RABBIT_PASS"))
 )
 
-SCHEDULER_CONFIG = {
-    "apscheduler.jobstores.default": {
-        "class": "django_apscheduler.jobstores:DjangoJobStore"
-    },
-    "apscheduler.executors.processpool": {"type": "threadpool"},
-}
-
-SCHEDULER_AUTOSTART = True
+CELERY_TASK_SERIALIZER = "json"
 
 LOGGING = {
     "version": 1,
@@ -230,3 +222,8 @@ LOGGING = {
         },
     },
 }
+
+RABBIT_USER = env("RABBIT_USER")
+RABBIT_PASS = env("RABBIT_PASS")
+RABBIT_HOST = env("RABBIT_HOST")
+RABBIT_PORT = env("RABBIT_PORT")
