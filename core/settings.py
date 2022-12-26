@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+    "django_apscheduler",
 ]
 
 MIDDLEWARE = [
@@ -184,8 +185,6 @@ CELERY_BROKER_URL = (
     % quote(env("RABBIT_PASS"))
 )
 
-CELERY_TASK_SERIALIZER = "json"
-
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -223,7 +222,5 @@ LOGGING = {
     },
 }
 
-RABBIT_USER = env("RABBIT_USER")
-RABBIT_PASS = env("RABBIT_PASS")
-RABBIT_HOST = env("RABBIT_HOST")
-RABBIT_PORT = env("RABBIT_PORT")
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+APSCHEDULER_RUN_NOW_TIMEOUT = 25
