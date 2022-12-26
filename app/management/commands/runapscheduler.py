@@ -13,7 +13,7 @@ from app.tasks import work_order_to_production
 logger = logging.getLogger(__name__)
 
 
-def glass_admin_tasks():
+def work_order_to_production_task():
     work_order_to_production.delay()
     logger.info("Work order to production process trigger successfully.")
 
@@ -31,13 +31,13 @@ class Command(BaseCommand):
         scheduler.add_jobstore(DjangoJobStore(), "default")
 
         scheduler.add_job(
-            glass_admin_tasks,
+            work_order_to_production_task,
             trigger=CronTrigger(minute="*"),
-            id="glass_admin_tasks",
+            id="work_order_to_production",
             max_instances=1,
             replace_existing=True,
         )
-        logger.info("Added job: 'glass_admin_tasks'.")
+        logger.info("Added job: 'work_order_to_production'.")
 
         scheduler.add_job(
             delete_old_job_executions,
