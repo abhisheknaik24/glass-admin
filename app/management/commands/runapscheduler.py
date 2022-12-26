@@ -32,12 +32,12 @@ class Command(BaseCommand):
 
         scheduler.add_job(
             glass_admin_tasks,
-            trigger=CronTrigger(second="*/60"),
+            trigger=CronTrigger(minute="*"),
             id="glass_admin_tasks",
             max_instances=1,
             replace_existing=True,
         )
-        logger.info("Added job 'my_job'.")
+        logger.info("Added job: 'glass_admin_tasks'.")
 
         scheduler.add_job(
             delete_old_job_executions,
