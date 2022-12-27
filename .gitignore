@@ -4,3 +4,4 @@ staticfiles/
 media/
 __pycache__/
 migrations/
+*.log
