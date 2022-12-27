@@ -181,7 +181,37 @@
                                 <span class="hide-menu">Products</span>
                             </a>
                         </li>
+                        <li class="sidebar-item">
+                            <a href="{% url 'cart' %}" class="sidebar-link">
+                                <i class="ri-admin-fill"></i>
+                                <span class="hide-menu">Cart</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{% url 'checkout' %}" class="sidebar-link">
+                                <i class="ri-admin-fill"></i>
+                                <span class="hide-menu">Checkout</span>
+                            </a>
+                        </li>
                         {% elif 'Admin' in groups %}
+                        <li class="sidebar-item">
+                            <a href="{% url 'work_order' %}" class="sidebar-link">
+                                <i class="ri-admin-fill"></i>
+                                <span class="hide-menu">Work Order</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{% url 'production' %}" class="sidebar-link">
+                                <i class="ri-admin-fill"></i>
+                                <span class="hide-menu">Production</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{% url 'inventory' %}" class="sidebar-link">
+                                <i class="ri-admin-fill"></i>
+                                <span class="hide-menu">Inventory</span>
+                            </a>
+                        </li>
                         <li class="sidebar-item">
                             <a href="{% url 'admin:index' %}" class="sidebar-link">
                                 <i class="ri-admin-fill"></i>
