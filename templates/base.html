@@ -193,7 +193,8 @@
                                 <span class="hide-menu">Checkout</span>
                             </a>
                         </li>
-                        {% elif 'Admin' in groups %}
+                        {% endif %}
+                        {% if 'Admin' in groups %}
                         <li class="sidebar-item">
                             <a href="{% url 'work_order' %}" class="sidebar-link">
                                 <i class="ri-admin-fill"></i>
@@ -213,12 +214,11 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="{% url 'admin:index' %}" class="sidebar-link">
+                            <a href="{% url 'admin:index' %}" class="sidebar-link" target="_blank">
                                 <i class="ri-admin-fill"></i>
                                 <span class="hide-menu">Admin</span>
                             </a>
                         </li>
-                        {% else %}
                         {% endif %}
                     </ul>
                 </nav>

@@ -16,3 +16,8 @@ def work_order_to_production():
                 )
                 cutting_production.save()
     return True
+
+
+@shared_task
+def production_to_inventory():
+    return True

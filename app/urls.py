@@ -21,5 +21,6 @@ urlpatterns = [
     path("work_order/", views.work_order_view, name="work_order"),
     path("add_work_order/", views.add_work_order, name="add_work_order"),
     path("production/", views.production_view, name="production"),
+    path("check_production/<int:id>/", views.check_production, name="check_production"),
     path("inventory/", views.inventory_view, name="inventory"),
 ]

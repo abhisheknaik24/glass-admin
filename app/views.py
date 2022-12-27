@@ -151,6 +151,33 @@ def production_view(request):
         return redirect(login_view)
 
 
+def check_production(request, id):
+    try:
+        production = Production.objects.get(id=id)
+        if production:
+            if production.status == "cutting":
+                production.is_cutting = True
+                production.status = "polishing"
+            elif production.status == "polishing":
+                production.is_polishing = True
+                production.status = "fabrication"
+            elif production.status == "fabrication":
+                production.is_fabrication = True
+                production.status = "toughening"
+            elif production.status == "toughening":
+                production.is_toughening = True
+                production.status = "dgu"
+            elif production.status == "dgu":
+                production.is_dgu = True
+                production.status = "dispatch"
+            else:
+                production.status = "cutting"
+            production.save()
+    except ObjectDoesNotExist:
+        production = None
+    return redirect(production_view)
+
+
 @login_required(login_url="/")
 def inventory_view(request):
     if request.user.groups.filter(name__in=["Admin"]).exists():
