@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 
-from app.models import Cart, Feature, Item, Notification, Production, Sidebar, WorkOrder
+from app.models import Cart, Feature, Item, Notification, Production, WorkOrder
 
 
 def login_view(request):

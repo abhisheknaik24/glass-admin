@@ -174,14 +174,22 @@
             <div class="scroll-sidebar">
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        {% for i in sidebar %}
+                        {% if 'Customer' in groups %}
                         <li class="sidebar-item">
-                            <a href="{% url i.url %}" class="sidebar-link">
-                                <i class="{{i.icon}}"></i>
-                                <span class="hide-menu">{{i.title}}</span>
+                            <a href="{% url 'products' %}" class="sidebar-link">
+                                <i class="ri-admin-fill"></i>
+                                <span class="hide-menu">Products</span>
                             </a>
                         </li>
-                        {% endfor %}
+                        {% elif 'Admin' in groups %}
+                        <li class="sidebar-item">
+                            <a href="{% url 'admin:index' %}" class="sidebar-link">
+                                <i class="ri-admin-fill"></i>
+                                <span class="hide-menu">Admin</span>
+                            </a>
+                        </li>
+                        {% else %}
+                        {% endif %}
                     </ul>
                 </nav>
             </div>

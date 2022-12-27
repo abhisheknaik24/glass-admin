@@ -2,23 +2,6 @@ from django.contrib.auth.models import Group, User
 from django.db import models
 
 
-class Sidebar(models.Model):
-    id = models.AutoField(primary_key=True, blank=False, null=False)
-    title = models.CharField(max_length=255, blank=False, null=False)
-    url = models.CharField(max_length=255, blank=False, null=False)
-    icon = models.CharField(max_length=255, blank=False, null=False)
-    priority = models.IntegerField(blank=False, null=False)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        db_table = "sidebar"
-
-
 class Item(models.Model):
     id = models.AutoField(primary_key=True, blank=False, null=False)
     image = models.ImageField(upload_to="items")

@@ -1,6 +1,6 @@
 from celery import shared_task
 
-from app.models import Cart, Feature, Item, Notification, Production, Sidebar, WorkOrder
+from app.models import Cart, Feature, Item, Notification, Production, WorkOrder
 
 
 @shared_task
