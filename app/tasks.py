@@ -27,9 +27,17 @@ def production_to_inventory():
         for i in productions:
             try:
                 item = Item.objects.get(id=i.work_order.item.id, is_active=True)
+                if item:
+                    item.in_stock += i.work_order.quantity
+                    item.save()
+
+                    try:
+                        production = Production.objects.get(id=i.id)
+                        if production:
+                            production.is_active = False
+                            production.save()
+                    except ObjectDoesNotExist:
+                        production = None
             except ObjectDoesNotExist:
                 item = None
-            if item:
-                item.in_stock += i.work_order.quantity
-                item.save()
     return True
