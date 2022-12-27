@@ -152,19 +152,6 @@ def production_view(request):
 
 
 @login_required(login_url="/")
-def production_details_view(request, id):
-    if request.user.groups.filter(name__in=["Admin"]).exists():
-        try:
-            production = Production.objects.get(id=id)
-        except ObjectDoesNotExist:
-            production = None
-        context = {"production": production}
-        return render(request, "production_details.html", context)
-    else:
-        return redirect(login_view)
-
-
-@login_required(login_url="/")
 def inventory_view(request):
     if request.user.groups.filter(name__in=["Admin"]).exists():
         items = Item.objects.filter(in_stock__gt=0)
