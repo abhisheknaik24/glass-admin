@@ -1,4 +1,5 @@
 from celery import shared_task
+from django.core.exceptions import ObjectDoesNotExist
 
 from app.models import Cart, Feature, Item, Notification, Production, WorkOrder
 
@@ -20,4 +21,15 @@ def work_order_to_production():
 
 @shared_task
 def production_to_inventory():
+    productions = Production.objects.filter(status="dispatch", is_active=True)
+
+    if productions:
+        for i in productions:
+            try:
+                item = Item.objects.get(id=i.work_order.item.id, is_active=True)
+            except ObjectDoesNotExist:
+                item = None
+            if item:
+                item.in_stock += i.work_order.quantity
+                item.save()
     return True
