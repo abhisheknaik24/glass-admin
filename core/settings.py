@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-import os
 from pathlib import Path
 from urllib.parse import quote
 
@@ -216,7 +215,7 @@ LOGGING = {
             "handlers": [
                 "file",
             ],
-            "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
+            "level": env("DJANGO_LOG_LEVEL"),
             "propagate": True,
         },
     },
