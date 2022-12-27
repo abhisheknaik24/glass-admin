@@ -23,7 +23,40 @@
         </div>
     </div>
     <div class="container-fluid">
-
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped display text-nowrap data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Item</th>
+                                        <th>Actual Quantity</th>
+                                        <th>Balance Quantity</th>
+                                        <th>Produce Quantity</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in productions %}
+                                    <tr>
+                                        <td>#{{i.id}}</td>
+                                        <td>{{i.work_order.item.name}}</td>
+                                        <td>{{i.actual_qty}}</td>
+                                        <td>{{i.balance_qty}}</td>
+                                        <td>{{i.produce_qty}}</td>
+                                        <td>{{i.status}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

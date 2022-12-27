@@ -144,7 +144,9 @@ def add_work_order(request):
 @login_required(login_url="/")
 def production_view(request):
     if request.user.groups.filter(name__in=["Admin"]).exists():
-        return render(request, "production.html")
+        productions = Production.objects.filter(is_active=True)
+        context = {"productions": productions}
+        return render(request, "production.html", context)
     else:
         return redirect(login_view)
 
