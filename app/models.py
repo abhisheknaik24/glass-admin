@@ -127,9 +127,6 @@ class WorkOrder(models.Model):
 class Production(models.Model):
     id = models.AutoField(primary_key=True, blank=False, null=False)
     work_order = models.ForeignKey(WorkOrder, on_delete=models.CASCADE)
-    actual_qty = models.IntegerField(blank=False, null=False)
-    balance_qty = models.IntegerField(blank=False, null=False)
-    produce_qty = models.IntegerField(blank=False, null=False)
     status = models.CharField(max_length=255, blank=False, null=False)
     is_cutting = models.BooleanField(default=False)
     is_polishing = models.BooleanField(default=False)
