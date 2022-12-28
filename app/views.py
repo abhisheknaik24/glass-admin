@@ -13,7 +13,7 @@ def login_view(request):
 @login_required(login_url="/")
 def products_view(request):
     if request.user.groups.filter(name__in=["Customer", "Admin"]).exists():
-        items = Item.objects.filter(in_stock__gt=0)
+        items = Item.objects.filter(in_stock__gt=0, is_active=True)
         context = {"items": items}
         return render(request, "products.html", context)
     else:
@@ -24,10 +24,10 @@ def products_view(request):
 def product_details_view(request, id):
     if request.user.groups.filter(name__in=["Customer", "Admin"]).exists():
         try:
-            item = Item.objects.get(id=id)
+            item = Item.objects.get(id=id, is_active=True)
         except ObjectDoesNotExist:
             item = None
-        features = Feature.objects.filter(item__id=id)
+        features = Feature.objects.filter(item__id=id, is_active=True)
         context = {"item": item, "features": features}
         return render(request, "details.html", context)
     else:
@@ -44,7 +44,7 @@ def products_cart_view(request):
 
 def add_to_cart(request, id):
     try:
-        item = Item.objects.get(id=id)
+        item = Item.objects.get(id=id, is_active=True)
         if item:
             cart_check = Cart.objects.filter(user=request.user, item=item).exists()
             if cart_check:
@@ -118,8 +118,8 @@ def products_checkout_view(request):
 @login_required(login_url="/")
 def work_order_view(request):
     if request.user.groups.filter(name__in=["Admin"]).exists():
-        items = Item.objects.all()
-        work_orders = WorkOrder.objects.all()
+        items = Item.objects.filter(is_active=True)
+        work_orders = WorkOrder.objects.filter(is_active=True)
         context = {"items": items, "work_orders": work_orders}
         return render(request, "work_order.html", context)
     else:
@@ -132,7 +132,7 @@ def add_work_order(request):
         quantity = request.POST.get("quantity", None)
         if item_id and quantity:
             try:
-                item = Item.objects.get(id=item_id)
+                item = Item.objects.get(id=item_id, is_active=True)
             except ObjectDoesNotExist:
                 item = None
             if item:
@@ -153,7 +153,7 @@ def production_view(request):
 
 def check_production(request, id):
     try:
-        production = Production.objects.get(id=id)
+        production = Production.objects.get(id=id, is_active=True)
         if production:
             if production.status == "cutting":
                 production.is_cutting = True
@@ -181,7 +181,7 @@ def check_production(request, id):
 @login_required(login_url="/")
 def inventory_view(request):
     if request.user.groups.filter(name__in=["Admin"]).exists():
-        items = Item.objects.filter(in_stock__gt=0)
+        items = Item.objects.filter(in_stock__gt=0, is_active=True)
         context = {"items": items}
         return render(request, "inventory.html", context)
     else:

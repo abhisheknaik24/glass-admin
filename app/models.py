@@ -5,7 +5,7 @@ from django.db import models
 class Item(models.Model):
     id = models.AutoField(primary_key=True, blank=False, null=False)
     image = models.ImageField(upload_to="items")
-    name = models.CharField(max_length=100, blank=False, null=False, unique=True)
+    name = models.CharField(max_length=100, blank=False, null=False)
     rate = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)
     discount_percentage = models.IntegerField()
     discount_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)

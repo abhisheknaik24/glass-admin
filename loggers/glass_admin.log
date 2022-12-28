@@ -1,0 +1,6 @@
+apscheduler.executors.default INFO 2022-12-28 21:41:40,018 base 13760 2240 Running job "excel_to_item_task (trigger: cron[second='*/10'], next run at: 2022-12-28 21:41:50 IST)" (scheduled at 2022-12-28 21:41:40+05:30)
+app.management.commands.runapscheduler INFO 2022-12-28 21:41:40,018 runapscheduler 13760 2240 Excel to item process trigger successfully.
+apscheduler.executors.default INFO 2022-12-28 21:41:40,018 base 13760 2240 Job "excel_to_item_task (trigger: cron[second='*/10'], next run at: 2022-12-28 21:41:50 IST)" executed successfully
+apscheduler.executors.default INFO 2022-12-28 21:41:50,023 base 13760 2240 Running job "excel_to_item_task (trigger: cron[second='*/10'], next run at: 2022-12-28 21:42:00 IST)" (scheduled at 2022-12-28 21:41:50+05:30)
+app.management.commands.runapscheduler INFO 2022-12-28 21:41:50,031 runapscheduler 13760 2240 Excel to item process trigger successfully.
+apscheduler.executors.default INFO 2022-12-28 21:41:50,031 base 13760 2240 Job "excel_to_item_task (trigger: cron[second='*/10'], next run at: 2022-12-28 21:42:00 IST)" executed successfully

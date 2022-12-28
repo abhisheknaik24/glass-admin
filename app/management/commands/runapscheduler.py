@@ -37,7 +37,7 @@ class Command(BaseCommand):
 
         scheduler.add_job(
             work_order_to_production_task,
-            trigger=CronTrigger(minute="*"),
+            trigger=CronTrigger(second="*/10"),
             id="work_order_to_production",
             max_instances=1,
             replace_existing=True,
@@ -45,7 +45,7 @@ class Command(BaseCommand):
 
         scheduler.add_job(
             production_to_inventory_task,
-            trigger=CronTrigger(minute="*"),
+            trigger=CronTrigger(second="*/10"),
             id="production_to_inventory",
             max_instances=1,
             replace_existing=True,

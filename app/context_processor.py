@@ -17,7 +17,7 @@ def index_processor(request):
                 total_rate += i.total_rate
                 total_discount += i.total_discount
 
-            notifications = Notification.objects.all()[:5]
+            notifications = Notification.objects.filter(is_active=True)[:5]
 
         except Exception as e:
             raise e

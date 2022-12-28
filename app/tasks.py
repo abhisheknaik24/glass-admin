@@ -1,3 +1,4 @@
+import pandas
 from celery import shared_task
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -16,6 +17,14 @@ def work_order_to_production():
                     status="cutting",
                 )
                 cutting_production.save()
+
+                try:
+                    work_order = WorkOrder.objects.get(id=i.id, is_active=True)
+                    if work_order:
+                        work_order.is_active = False
+                        work_order.save()
+                except ObjectDoesNotExist:
+                    work_order = None
     return True
 
 
@@ -32,7 +41,7 @@ def production_to_inventory():
                     item.save()
 
                     try:
-                        production = Production.objects.get(id=i.id)
+                        production = Production.objects.get(id=i.id, is_active=True)
                         if production:
                             production.is_active = False
                             production.save()
@@ -40,4 +49,22 @@ def production_to_inventory():
                         production = None
             except ObjectDoesNotExist:
                 item = None
+    return True
+
+
+@shared_task
+def excel_to_item():
+    excel_data_df = pandas.read_excel("resources/Item.xlsx")
+
+    if excel_data_df:
+        for index, row in excel_data_df.iterrows():
+            item = Item(
+                name=row["Item Name"],
+                rate=row["Rate"],
+                discount_percentage=10,
+                unit=row["Unit"],
+                height=row["Height"],
+                width=row["Width"],
+            )
+            item.save()
     return True
