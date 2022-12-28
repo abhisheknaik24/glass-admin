@@ -1,5 +1,3 @@
-import logging
-
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.triggers.cron import CronTrigger
 from django.conf import settings
@@ -10,17 +8,13 @@ from django_apscheduler.models import DjangoJobExecution
 
 from app.tasks import production_to_inventory, work_order_to_production
 
-logger = logging.getLogger(__name__)
-
 
 def work_order_to_production_task():
     work_order_to_production.delay()
-    logger.info("Work order to production process trigger successfully.")
 
 
 def production_to_inventory_task():
     production_to_inventory.delay()
-    logger.info("Production to inventory process trigger successfully.")
 
 
 @util.close_old_connections
@@ -60,9 +54,6 @@ class Command(BaseCommand):
         )
 
         try:
-            logger.info("Starting scheduler...")
             scheduler.start()
         except KeyboardInterrupt:
-            logger.info("Stopping scheduler...")
             scheduler.shutdown()
-            logger.info("Scheduler shut down successfully!")
