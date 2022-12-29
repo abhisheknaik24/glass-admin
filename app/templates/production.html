@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}Production{% endblock %}
+
+{% block content %}
+<div class="page-wrapper bg-img">
+    <div class="page-titles">
+        <div class="row">
+            <div class="col-lg-8 col-md-6 col-12 align-self-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 d-flex align-items-center">
+                        <li class="breadcrumb-item">
+                            <a href="{% url 'products' %}" class="link"><i class="ri-home-3-line fs-5"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Production
+                        </li>
+                    </ol>
+                </nav>
+                <h1 class="mb-0 fw-bold">Production</h1>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped display align-middle text-nowrap data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Quantity</th>
+                                        <th>Cutting</th>
+                                        <th>Polishing</th>
+                                        <th>Fabrication</th>
+                                        <th>Toughening</th>
+                                        <th>DGU</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in productions %}
+                                    <tr>
+                                        <td width="300">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <img src="{{i.work_order.item.image.url}}" alt="product"
+                                                        class="img-fluid" width="60" />
+                                                </div>
+                                                <div class="ms-3">
+                                                    <h4>{{i.work_order.item.name}}</h4>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>{{i.work_order.quantity}}</td>
+                                        <td>
+                                            {% if i.is_cutting %}
+                                            Done
+                                            {% else %}
+                                            {% if i.status == "cutting" %}
+                                            <div class="text-center">
+                                                <a href="{% url 'check_production' i.id %}"
+                                                    class="btn btn-sm btn-light-secondary text-secondary waves-effect waves-light">
+                                                    <i data-feather="check" class="feather-xs"></i>
+                                                </a>
+                                            </div>
+                                            {% else %}
+                                            Pending
+                                            {% endif %}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if i.is_polishing %}
+                                            Done
+                                            {% else %}
+                                            {% if i.status == "polishing" %}
+                                            <div class="text-center">
+                                                <a href="{% url 'check_production' i.id %}"
+                                                    class="btn btn-sm btn-light-secondary text-secondary waves-effect waves-light">
+                                                    <i data-feather="check" class="feather-xs"></i>
+                                                </a>
+                                            </div>
+                                            {% else %}
+                                            Pending
+                                            {% endif %}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if i.is_fabrication %}
+                                            Done
+                                            {% else %}
+                                            {% if i.status == "fabrication" %}
+                                            <div class="text-center">
+                                                <a href="{% url 'check_production' i.id %}"
+                                                    class="btn btn-sm btn-light-secondary text-secondary waves-effect waves-light">
+                                                    <i data-feather="check" class="feather-xs"></i>
+                                                </a>
+                                            </div>
+                                            {% else %}
+                                            Pending
+                                            {% endif %}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if i.is_toughening %}
+                                            Done
+                                            {% else %}
+                                            {% if i.status == "toughening" %}
+                                            <div class="text-center">
+                                                <a href="{% url 'check_production' i.id %}"
+                                                    class="btn btn-sm btn-light-secondary text-secondary waves-effect waves-light">
+                                                    <i data-feather="check" class="feather-xs"></i>
+                                                </a>
+                                            </div>
+                                            {% else %}
+                                            Pending
+                                            {% endif %}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if i.is_dgu %}
+                                            Done
+                                            {% else %}
+                                            {% if i.status == "dgu" %}
+                                            <div class="text-center">
+                                                <a href="{% url 'check_production' i.id %}"
+                                                    class="btn btn-sm btn-light-secondary text-secondary waves-effect waves-light">
+                                                    <i data-feather="check" class="feather-xs"></i>
+                                                </a>
+                                            </div>
+                                            {% else %}
+                                            Pending
+                                            {% endif %}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -10,14 +10,14 @@ def index_processor(request):
             if request.user.groups.values_list() is not None:
                 groups = list(request.user.groups.values_list("name", flat=True))
 
-            carts = Cart.objects.filter(user=request.user.id)
+            carts = Cart.objects.filter(user=request.user)
 
             for i in carts:
                 total_price += i.total_price
                 total_rate += i.total_rate
                 total_discount += i.total_discount
 
-            notifications = Notification.objects.all()[:5]
+            notifications = Notification.objects.filter(is_active=True)[:5]
 
         except Exception as e:
             raise e

@@ -4,7 +4,7 @@
 {% block title %}Products{% endblock %}
 
 {% block content %}
-<div class="page-wrapper">
+<div class="page-wrapper bg-img">
     <div class="page-titles">
         <div class="row">
             <div class="col-lg-8 col-md-6 col-12 align-self-center">
@@ -41,9 +41,11 @@
                             /-
                             <small class="text-success fs-4">({{i.discount_percentage}}% off)</small>
                         </h5>
+                        {% if "Customer" in groups %}
                         <a href="{% url 'add_to_cart' i.id %}" class="btn btn-outline-primary w-100 d-block mt-3">
                             Add to Cart
                         </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

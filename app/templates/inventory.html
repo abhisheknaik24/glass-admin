@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}Inventory{% endblock %}
+
+{% block content %}
+<div class="page-wrapper bg-img">
+    <div class="page-titles">
+        <div class="row">
+            <div class="col-lg-8 col-md-6 col-12 align-self-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 d-flex align-items-center">
+                        <li class="breadcrumb-item">
+                            <a href="{% url 'products' %}" class="link"><i class="ri-home-3-line fs-5"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Inventory
+                        </li>
+                    </ol>
+                </nav>
+                <h1 class="mb-0 fw-bold">Inventory</h1>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped display text-nowrap data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Item</th>
+                                        <th>Rate</th>
+                                        <th>Unit</th>
+                                        <th>In Stock</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in items %}
+                                    <tr>
+                                        <td>#{{i.id}}</td>
+                                        <td>{{i.name}}</td>
+                                        <td>{{i.rate}}</td>
+                                        <td>{{i.unit}}</td>
+                                        <td>{{i.in_stock}}</td>
+                                        <td>{{i.is_active}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

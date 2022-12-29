@@ -1,10 +1,11 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 from django.db import models
 
 
 class Item(models.Model):
+    id = models.AutoField(primary_key=True, blank=False, null=False)
     image = models.ImageField(upload_to="items")
-    name = models.CharField(max_length=100, blank=False, null=False, unique=True)
+    name = models.CharField(max_length=100, blank=False, null=False)
     rate = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)
     discount_percentage = models.IntegerField()
     discount_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
@@ -14,6 +15,8 @@ class Item(models.Model):
     width = models.IntegerField(blank=False, null=False)
     sq_mt = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     sq_ft = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    in_stock = models.IntegerField(default=0)
+    is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -36,8 +39,10 @@ class Item(models.Model):
 
 
 class Feature(models.Model):
+    id = models.AutoField(primary_key=True, blank=False, null=False)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     feature = models.CharField(max_length=255, blank=False, null=False)
+    is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -49,12 +54,14 @@ class Feature(models.Model):
 
 
 class Cart(models.Model):
+    id = models.AutoField(primary_key=True, blank=False, null=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
+    quantity = models.IntegerField(blank=False, null=False)
     total_rate = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     total_discount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -72,7 +79,9 @@ class Cart(models.Model):
 
 
 class Notification(models.Model):
+    id = models.AutoField(primary_key=True, blank=False, null=False)
     title = models.CharField(max_length=255, blank=False, null=False)
+    is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -81,3 +90,38 @@ class Notification(models.Model):
 
     class Meta:
         db_table = "notifications"
+
+
+class WorkOrder(models.Model):
+    id = models.AutoField(primary_key=True, blank=False, null=False)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    quantity = models.IntegerField(blank=False, null=False)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.item.name
+
+    class Meta:
+        db_table = "work_orders"
+
+
+class Production(models.Model):
+    id = models.AutoField(primary_key=True, blank=False, null=False)
+    work_order = models.ForeignKey(WorkOrder, on_delete=models.CASCADE)
+    status = models.CharField(max_length=255, blank=False, null=False)
+    is_cutting = models.BooleanField(default=False)
+    is_polishing = models.BooleanField(default=False)
+    is_fabrication = models.BooleanField(default=False)
+    is_toughening = models.BooleanField(default=False)
+    is_dgu = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.work_order.item.name
+
+    class Meta:
+        db_table = "productions"

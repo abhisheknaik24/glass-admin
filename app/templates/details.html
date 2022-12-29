@@ -4,7 +4,7 @@
 {% block title %}Product Details{% endblock %}
 
 {% block content %}
-<div class="page-wrapper">
+<div class="page-wrapper bg-img">
     <div class="page-titles">
         <div class="row">
             <div class="col-lg-8 col-md-6 col-12 align-self-center">
@@ -33,6 +33,7 @@
                                 <div class="white-box text-center border mb-3 mt-4">
                                     <img src="{{item.image.url}}" class="img-fluid" alt="product" />
                                 </div>
+                                {% if "Customer" in groups %}
                                 <div class="row gx-2">
                                     <div class="col-md-6 mb-2 mb-md-0">
                                         <a href="{% url 'add_to_cart' item.id %}" class="btn btn-info me-1 w-100">
@@ -40,11 +41,12 @@
                                         </a>
                                     </div>
                                     <div class="col-md-6">
-                                        <a href="{% url 'checkout' %}" class="btn btn-primary w-100">
+                                        <a href="{% url 'buy_now' item.id %}" class="btn btn-primary w-100">
                                             Buy Now
                                         </a>
                                     </div>
                                 </div>
+                                {% endif %}
                             </div>
                             <div class="col-lg-8 col-xl-9 col-md-9 col-sm-6">
                                 <h2 class="mt-4">
@@ -93,6 +95,10 @@
                                         <tr>
                                             <td>Square Feet</td>
                                             <td class="text-dark">{{item.sq_ft}} ft<sup>2</sup></td>
+                                        </tr>
+                                        <tr>
+                                            <td>In Stock</td>
+                                            <td class="text-dark">{{item.in_stock}}</td>
                                         </tr>
                                     </tbody>
                                 </table>

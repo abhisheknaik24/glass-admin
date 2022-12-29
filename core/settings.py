@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from urllib.parse import quote
 
 import environ
 
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+    "django_apscheduler",
 ]
 
 MIDDLEWARE = [
@@ -121,7 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Kolkata"
 
 USE_I18N = True
 
@@ -154,14 +156,19 @@ AUTHENTICATION_BACKENDS = [
 SITE_ID = env("SITE_ID")
 
 LOGIN_REDIRECT_URL = "/products/"
-# LOGOUT_REDIRECT_URL = "/login/"
+LOGOUT_REDIRECT_URL = "/"
 SOCIALACCOUNT_QUERY_EMAIL = True
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_LOGIN_ON_GET = True
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
+        "APP": {
+            "client_id": env("OAUTH_CLIENT_ID"),
+            "secret": env("OAUTH_SECRET_KEY"),
+        },
         "SCOPE": [
             "profile",
             "email",
@@ -171,3 +178,11 @@ SOCIALACCOUNT_PROVIDERS = {
         },
     }
 }
+
+CELERY_BROKER_URL = (
+    f'amqp://{env("RABBIT_USER")}:%s@{env("RABBIT_HOST")}:{env("RABBIT_PORT")}'
+    % quote(env("RABBIT_PASS"))
+)
+
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+APSCHEDULER_RUN_NOW_TIMEOUT = 25
